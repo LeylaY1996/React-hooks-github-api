@@ -109,22 +109,25 @@ export default function App() {
   const[search,setSearch] = useState([]);
   const [value, setValue] = React.useState();
 
-  const onChange = (event) => {
-    console.log(event.target.value);
-    searchRepositories('test')
-  };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      console.log("tıklanı");
+      setValue({value:e.target.value})
+    }
+  }
+
+  console.log("Heyy",value);
   useEffect(() => {
       let mounted = true;
       let i;
-      searchRepositories().then(items => {
+      searchRepositories().then(value => {
           if(mounted){
-            searchRepositories(items)
+            searchRepositories(value)
           }
-          console.log("Users",items);
+          console.log("Users",value);
       })
       return() => mounted = false;
   }, [])
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -136,7 +139,7 @@ export default function App() {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase onChange={onChange}
+            <InputBase onKeyPress={handleKeyPress}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
