@@ -6,6 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import InsertDriveFileSharpIcon from '@material-ui/icons/InsertDriveFileSharp';
+import MoodSharpIcon from '@material-ui/icons/MoodSharp';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -60,6 +67,38 @@ const useStyles = makeStyles((theme) => ({
     height: '24px',
     margin: '5px 8px 5px 10px',
     objectFit: 'contain',
+  },
+  rectangle : {
+    width:'360px',
+    height:'46px',
+    flexGrow:'0',
+    margin: '8px 0 0',
+    padding: '11px 22px 11px 16px',
+  },
+  repositorySearch: {
+    width: '1440px',
+  height: '900px',
+  backgroundColor: '#ffffff'
+  },
+  divider: {
+    width: '360px',
+    height: '1px',
+    margin: '8px 0 24px',
+    backgroundColor: '#c4c4c4'
+  },
+  line: {
+    width: '1px',
+  height: '835px',
+  margin: '65px 63px 0 0',
+  transform: 'rotate(90deg)',
+  backgroundColor: '#c4c4c4'
+  },
+  listIcon: {
+    width: '24px',
+    height: '24px',
+    flexGrow: '0',
+    margin: '0 32px 0 0',
+    objectFit: 'contain'
   }
 }));
 
@@ -90,6 +129,22 @@ export default function App() {
             Bookmarks
         </Toolbar>
       </AppBar>
+      <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
+        <ListItem button className={classes.rectangle}>
+          <InsertDriveFileSharpIcon className={classes.listIcon}/>
+          <ListItemText primary="Repositories" />
+        </ListItem>
+        <ListItem button className={classes.rectangle}>
+          <MoodSharpIcon className={classes.listIcon}/>
+          <ListItemText primary="Users" />
+        </ListItem>
+        <ListItem button className={classes.rectangle}>
+          <BookmarkBorderIcon className={classes.listIcon}/>
+          <ListItemText primary="Bookmarked" />
+        </ListItem>
+      <Divider className={classes.divider}/>
+    </List>
+
     </div>
   );
 }
