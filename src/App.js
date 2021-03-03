@@ -12,6 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InsertDriveFileSharpIcon from '@material-ui/icons/InsertDriveFileSharp';
 import MoodSharpIcon from '@material-ui/icons/MoodSharp';
+import { useState, useEffect } from "react";
+import {searchRepositories} from '../src/services/search';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -104,6 +106,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+  const[search,setSearch] = useState([]);
+  const [value, setValue] = React.useState();
+
+  const onChange = (event) => {
+    console.log(event.target.value);
+    searchRepositories('test')
+  };
+  useEffect(() => {
+      let mounted = true;
+      let i;
+      searchRepositories().then(items => {
+          if(mounted){
+            searchRepositories(items)
+          }
+          console.log("Users",items);
+      })
+      return() => mounted = false;
+  }, [])
 
   return (
     <div className={classes.grow}>
@@ -116,7 +136,7 @@ export default function App() {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
+            <InputBase onChange={onChange}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
