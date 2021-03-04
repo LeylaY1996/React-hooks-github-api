@@ -17,6 +17,9 @@ import {searchRepositories} from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import ListRepo from './components/ListRepo';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -106,12 +109,38 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: '0',
     margin: '0 32px 0 0',
     objectFit: 'contain'
+  },
+  book :{
+    width: '24px',
+    height: '24px',
+    margin: '4px 8px 0 63px',
+    objectFit: 'contain'
+  },
+  airbnb: {
+    width: '182px',
+    height: '24px',
+    fontFamily: 'Roboto',
+    fontSize: '20px',
+    fontWeight: '250px',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.2',
+    letterSpacing: 'normal',
+    textAlign: 'left',
+    color: '#375f9d'
+  },
+  listDivider:{
+    width: '952px',
+    height: '1px',
+    margin: '23px 64px 44px 63px',
+    backgroundColor: '#bebebe'
   }
 }));
 
 export default function App() {
   const classes = useStyles();
   const [values, setValue] = useState();
+  const [repo, setRepoSize] = useState();
 
   
 
@@ -123,9 +152,15 @@ export default function App() {
       searchRepositories(e.target.value)
       .then(searchFound => {
         setValue({values:searchFound.items});
+        setRepoSize({repo:searchFound.total_count})
+        console.log(searchFound.total_count)
       });
     }
   }
+
+  console.log("values",values);
+  console.log("repo",repo);
+
   return (
     <div className={classes.grow}>
        
@@ -157,7 +192,7 @@ export default function App() {
        <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
         <ListItem button className={classes.rectangle}>
           <InsertDriveFileSharpIcon className={classes.listIcon}/>
-          <ListItemText primary="Repositories" />
+          <ListItemText primary="Repositories" /> 
         </ListItem>
         <ListItem button className={classes.rectangle}>
           <MoodSharpIcon className={classes.listIcon}/>
@@ -171,32 +206,7 @@ export default function App() {
     </List>
         </Grid>
         <Grid item xs={9}>
-        <List className={classes.root}>
-        { values && Object.values(values).map(value => (
-         <ListItem alignItems="flex-start" key={value.id}>
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-          ))}
-        <Divider variant="inset" component="li" />
-        </List>
+        <ListRepo data= {values}/>
         </Grid>
        </Grid>
     </div>
