@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { ListRepo } from './router';
+
 
 
 const Routing = () => {
@@ -11,7 +13,7 @@ const Routing = () => {
     <Router>
       <Switch>
         <Route path="/" exact component={App} />
-        {/* <Route path="/user-detail/:id" component={UserDetail} /> */}
+        {<Route path="/list-repo" component={ListRepo} />}
       </Switch>
     </Router>
   )

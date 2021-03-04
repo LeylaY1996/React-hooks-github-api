@@ -1,11 +1,6 @@
 import React from 'react'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
-import InsertDriveFileSharpIcon from '@material-ui/icons/InsertDriveFileSharp';
-import MoodSharpIcon from '@material-ui/icons/MoodSharp';
-import { useState, useEffect } from "react";
-import Grid from '@material-ui/core/Grid';
 import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

@@ -15,10 +15,8 @@ import MoodSharpIcon from '@material-ui/icons/MoodSharp';
 import { useState, useEffect } from "react";
 import {searchRepositories} from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import ListRepo from './components/ListRepo';
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -141,6 +139,9 @@ export default function App() {
   const classes = useStyles();
   const [values, setValue] = useState();
   const [repo, setRepoSize] = useState();
+  const [users,setUsers] = useState();
+  const [bookmarks,setBookmarks] = useState();
+
 
   
 
@@ -152,15 +153,24 @@ export default function App() {
       searchRepositories(e.target.value)
       .then(searchFound => {
         setValue({values:searchFound.items});
+        
         setRepoSize({repo:searchFound.total_count})
-        console.log(searchFound.total_count)
+        Users(searchFound.items);
+        
       });
     }
   }
 
+  function Users(values){
+    values.map(value => {
+      console.log(value.owner);
+      setUsers({users:value.owner})
+    })
+  }
   console.log("values",values);
   console.log("repo",repo);
-
+  console.log("users",users);
+  
   return (
     <div className={classes.grow}>
        
@@ -192,7 +202,7 @@ export default function App() {
        <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
         <ListItem button className={classes.rectangle}>
           <InsertDriveFileSharpIcon className={classes.listIcon}/>
-          <ListItemText primary="Repositories" /> 
+          <ListItemText primary="Repositories" />
         </ListItem>
         <ListItem button className={classes.rectangle}>
           <MoodSharpIcon className={classes.listIcon}/>
