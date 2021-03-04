@@ -14,10 +14,15 @@ import InsertDriveFileSharpIcon from '@material-ui/icons/InsertDriveFileSharp';
 import MoodSharpIcon from '@material-ui/icons/MoodSharp';
 import { useState, useEffect } from "react";
 import {searchRepositories} from '../src/services/search';
-
+import Grid from '@material-ui/core/Grid';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+  },
+  content: {
+    flexGrow: 2,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -106,30 +111,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
-  const[search,setSearch] = useState([]);
-  const [value, setValue] = React.useState();
+  const [values, setValue] = useState();
 
+  
+
+  useEffect(() => {
+  }, [])
+ 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      console.log("tıklanı");
-      setValue({value:e.target.value})
+      searchRepositories(e.target.value)
+      .then(searchFound => {
+        setValue({values:searchFound.items});
+      });
     }
   }
-
-  console.log("Heyy",value);
-  useEffect(() => {
-      let mounted = true;
-      let i;
-      searchRepositories().then(value => {
-          if(mounted){
-            searchRepositories(value)
-          }
-          console.log("Users",value);
-      })
-      return() => mounted = false;
-  }, [])
   return (
     <div className={classes.grow}>
+       
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -152,7 +151,10 @@ export default function App() {
             Bookmarks
         </Toolbar>
       </AppBar>
-      <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
+   
+      <Grid container spacing={3}>
+       <Grid item xs={3}>
+       <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
         <ListItem button className={classes.rectangle}>
           <InsertDriveFileSharpIcon className={classes.listIcon}/>
           <ListItemText primary="Repositories" />
@@ -167,7 +169,37 @@ export default function App() {
         </ListItem>
       <Divider className={classes.divider}/>
     </List>
-
+        </Grid>
+        <Grid item xs={9}>
+        <List className={classes.root}>
+        { values && Object.values(values).map(value => (
+         <ListItem alignItems="flex-start" key={value.id}>
+        <ListItemAvatar>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        </ListItemAvatar>
+        <ListItemText
+          primary="Brunch this weekend?"
+          secondary={
+            <React.Fragment>
+              <Typography
+                component="span"
+                variant="body2"
+                className={classes.inline}
+                color="textPrimary"
+              >
+                Ali Connors
+              </Typography>
+              {" — I'll be in your neighborhood doing errands this…"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+          ))}
+        <Divider variant="inset" component="li" />
+        </List>
+        </Grid>
+       </Grid>
     </div>
+
   );
 }
