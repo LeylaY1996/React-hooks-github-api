@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { useState, useEffect } from "react";
+import {Link} from 'react-router-dom'
 
 const useStyles = ({
     grow: {
@@ -87,13 +88,14 @@ export default function ListRepo(props) {
   let values = props.data;
 
     return (
-      
+
         <List >
         { props.data && Object.values(values).map((value,index) => (
         <ListItem  key={index} alignItems="flex-start">
         <ListItemAvatar>
           <BookOutlinedIcon/>
         </ListItemAvatar>
+        <Link class="user-btn" to={`/repo-detail/${value[index].id}`}>
         <ListItemText
           primary= {value[index].full_name}
           secondary={
@@ -109,6 +111,7 @@ export default function ListRepo(props) {
             </React.Fragment>
           }
         />
+          </Link>       
       </ListItem>
         ))}
         <Divider ></Divider>

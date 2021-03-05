@@ -172,9 +172,9 @@ export default function App() {
     })
   }
 
-/*   console.log("values",values);
+  console.log("values",values);
   console.log("repo",repo);
-  console.log("users",users); */
+  console.log("users",users);
   
   return (
     <div className={classes.grow}>

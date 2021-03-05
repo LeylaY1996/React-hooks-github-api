@@ -8,6 +8,7 @@ import { ListRepo } from './router';
 import ListUsers from './components/ListUsers';
 import {Redirect} from 'react-router-dom';
 import ListBookmarks from './components/ListBookmarks';
+import RepoDetail from './components/RepoDetail';
 
 const Routing = () => {
   return(
@@ -16,6 +17,7 @@ const Routing = () => {
         <App/>
         <Route path="/" exact component={App} />
         <Route path="/list-repo" component={ListRepo} />
+        <Route path="/repo-detail/:id" component={RepoDetail} />
         <Route path="/list-users" component={ListUsers} />
         <Route path="/list-bookmarks" component={ListBookmarks} />
       </Switch>
