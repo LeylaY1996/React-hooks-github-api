@@ -6,6 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import { useState, useEffect } from "react";
 
 const useStyles = ({
     grow: {
@@ -81,9 +82,12 @@ const useStyles = ({
   });
   
 export default function ListRepo(props) {
-    let values = props.data;
-    console.log("props",values)
+
+  const [users,setUsers] = useState();
+  let values = props.data;
+
     return (
+      
         <List >
         { props.data && Object.values(values).map((value,index) => (
         <ListItem  key={index} alignItems="flex-start">

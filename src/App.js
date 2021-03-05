@@ -16,6 +16,9 @@ import { useState, useEffect } from "react";
 import {searchRepositories} from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListRepo from './components/ListRepo';
+import { useHistory } from "react-router-dom";
+import {Link} from 'react-router-dom';
+import ListUsers from './components/ListUsers';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -142,6 +145,7 @@ export default function App() {
   const [users,setUsers] = useState();
   const [bookmarks,setBookmarks] = useState();
 
+  const history = useHistory();
 
   
 
@@ -167,9 +171,10 @@ export default function App() {
       setUsers({users:value.owner})
     })
   }
-  console.log("values",values);
+
+/*   console.log("values",values);
   console.log("repo",repo);
-  console.log("users",users);
+  console.log("users",users); */
   
   return (
     <div className={classes.grow}>
@@ -202,21 +207,27 @@ export default function App() {
        <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
         <ListItem button className={classes.rectangle}>
           <InsertDriveFileSharpIcon className={classes.listIcon}/>
-          <ListItemText primary="Repositories" />
+          <Link to="/list-repo">
+            <ListItemText primary="Repositories"/>
+            </Link>
         </ListItem>
         <ListItem button className={classes.rectangle}>
           <MoodSharpIcon className={classes.listIcon}/>
-          <ListItemText primary="Users" />
+          <Link to="/list-users">
+            <ListItemText primary="Users"/>
+            </Link>
         </ListItem>
         <ListItem button className={classes.rectangle}>
           <BookmarkBorderIcon className={classes.listIcon}/>
-          <ListItemText primary="Bookmarked" />
+          <Link to="/list-bookmarks">
+            <ListItemText primary="Bookmarked"/>
+            </Link>
         </ListItem>
       <Divider className={classes.divider}/>
     </List>
         </Grid>
         <Grid item xs={9}>
-        <ListRepo data= {values}/>
+            <ListRepo data= {values}/>
         </Grid>
        </Grid>
     </div>
