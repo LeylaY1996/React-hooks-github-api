@@ -1,19 +1,64 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { fade } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import Divider from '@material-ui/core/Divider';
 import { useState, useEffect } from "react";
-import {searchRepositories, searchUsers} from '../src/services/search';
+import { searchRepositories, searchUsers } from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListRepo from './components/ListRepo';
 import { useHistory } from "react-router-dom";
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import ListUsers from './components/ListUsers';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -73,17 +118,17 @@ const useStyles = makeStyles((theme) => ({
     margin: '5px 8px 5px 10px',
     objectFit: 'contain',
   },
-  rectangle : {
-    width:'360px',
-    height:'46px',
-    flexGrow:'0',
+  rectangle: {
+    width: '360px',
+    height: '46px',
+    flexGrow: '0',
     margin: '8px 0 0',
     padding: '11px 22px 11px 16px',
   },
   repositorySearch: {
     width: '1440px',
-  height: '900px',
-  backgroundColor: '#ffffff'
+    height: '900px',
+    backgroundColor: '#ffffff'
   },
   divider: {
     width: '360px',
@@ -93,10 +138,10 @@ const useStyles = makeStyles((theme) => ({
   },
   line: {
     width: '1px',
-  height: '835px',
-  margin: '65px 63px 0 0',
-  transform: 'rotate(90deg)',
-  backgroundColor: '#c4c4c4'
+    height: '835px',
+    margin: '65px 63px 0 0',
+    transform: 'rotate(90deg)',
+    backgroundColor: '#c4c4c4'
   },
   listIcon: {
     width: '24px',
@@ -105,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 32px 0 0',
     objectFit: 'contain'
   },
-  book :{
+  book: {
     width: '24px',
     height: '24px',
     margin: '4px 8px 0 63px',
@@ -124,21 +169,21 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     color: '#375f9d'
   },
-  listDivider:{
+  listDivider: {
     width: '952px',
     height: '1px',
     margin: '23px 64px 44px 63px',
     backgroundColor: '#bebebe'
   },
-  number:{
-      width: '360px',
-      height: '46px',
-      flexGrow: '0',
-      margin: '8px 0 0',
-      padding: '13px 22px 13px 20px',
-      color: 'rgba(0, 0, 0, 0.87)'
+  number: {
+    width: '360px',
+    height: '46px',
+    flexGrow: '0',
+    margin: '8px 0 0',
+    padding: '13px 22px 13px 20px',
+    color: 'rgba(0, 0, 0, 0.87)'
   },
-  verticaldvder:{
+  verticaldvder: {
     width: '1px',
     height: '855px',
     marginLeft: '-5px',
@@ -150,46 +195,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
-  const [values, setValue] = useState();
+  const [value, setValue] = React.useState(0);
+  const [values, setValues] = useState();
   const [repoSize, setRepoSize] = useState();
   const [userSize, setUserSize] = useState();
-  const [users,setUsers] = useState();
-  const [bookmarks,setBookmarks] = useState();
+  const [users, setUsers] = useState();
+  const [bookmarks, setBookmarks] = useState();
 
   const history = useHistory();
 
 
- let sear;
+  let sear;
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchRepositories(e.target.value)
-      .then(searchFound => {
-        console.log("repo",searchFound.total_count);
-        setValue(searchFound.items);
-        setRepoSize(searchFound.total_count)
-      });
+        .then(searchFound => {
+          console.log("repo", searchFound.total_count);
+          setValues(searchFound.items);
+          setRepoSize(searchFound.total_count)
+        });
 
       searchUsers(e.target.value)
-      .then(searchFound => {
-        console.log("users",searchFound);
-        setUsers(searchFound.items);
-        setUserSize(searchFound.total_count)
+        .then(searchFound => {
+          console.log("users", searchFound);
+          setUsers(searchFound.items);
+          setUserSize(searchFound.total_count)
 
-      });
+        });
     }
   }
-function getUsers() {
-  //searchUsers(e.target.value);
-}
-  console.log("values",values);
-  console.log("users",users);
-  
+  function getUsers() {
+    //searchUsers(e.target.value);
+  }
+  console.log("values", values);
+  console.log("users", users);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-       <div  className={classes.grow}>
+    <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-              <img src="logo.png"/>
+            <img src="logo.png" />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -204,25 +254,41 @@ function getUsers() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-            <BookmarkBorderIcon className={classes.bookmarkBorder}/>
+          <BookmarkBorderIcon className={classes.bookmarkBorder} />
             Bookmarks
         </Toolbar>
       </AppBar>
-   
       <Grid container alignItems="stretch" spacing={3}>
-  <Grid className="left-pane" item md={4} xs={12}>
-  <MenuList >
-          <MenuItem className={classes.rectangle}>Repositories <h4 className={classes.number}>{repoSize}</h4></MenuItem>
-          <MenuItem  className={classes.rectangle} onClick={getUsers}>Users <h4 className={classes.number}>{userSize}</h4></MenuItem>
-          <MenuItem  className={classes.rectangle}>Bookmarked</MenuItem>
-        </MenuList>
-        <Divider  className={classes.divider}/>
-</Grid>
- <Grid className="right-pane" item md={8} xs={12}>
-  {values ? <ListRepo data={values}/> : <ListRepo data={users}/>}
-  </Grid>
-</Grid>
-    </div>
+        <Grid className="left-pane" item md={4} xs={12}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            className={classes.tabs}
+          >
+            {/* <InsertDriveFileIcon/> */}
+            <Tab icon={<InsertDriveFileIcon />} label="Repositories" {...a11yProps(0)} />
+            {/* <InsertEmoticonIcon/> */}
+            <Tab icon={<InsertEmoticonIcon />} label="Users" {...a11yProps(1)} />
+            {/* <BookmarkBorderIcon/> */}
+            <Tab icon={<BookmarkBorderIcon />} label="Bookmarked" {...a11yProps(2)} />
 
+          </Tabs>
+        </Grid>
+        <Grid className="right-pane" item md={8} xs={12}>
+          <TabPanel value={value} index={0}>
+            <ListRepo data={values} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <ListUsers />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Item Three
+      </TabPanel>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
