@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { useState, useEffect } from "react";
 import {Link} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const useStyles = ({
     grow: {
@@ -81,40 +82,37 @@ const useStyles = ({
       backgroundColor: '#bebebe'
     }
   });
-  
+
 export default function ListRepo(props) {
+  let repos = props.data;
 
-  const [users,setUsers] = useState();
-  let values = props.data;
-
-    return (
-
+  return (
         <List >
-        { props.data && Object.values(values).map((value,index) => (
-        <ListItem  key={index} alignItems="flex-start">
-        <ListItemAvatar>
-          <BookOutlinedIcon/>
-        </ListItemAvatar>
-        <Link class="user-btn" to={`/repo-detail/${value[index].id}`}>
-        <ListItemText
-          primary= {value[index].full_name}
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                
-                color="textPrimary"
-              >
-               {value[index].description}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-          </Link>       
-      </ListItem>
-        ))}
-        <Divider ></Divider>
+          {repos && repos.map((repo, index) => 
+        <Link   key={repo.id} to={`/repo-detail/${repo.full_name}`}>
+      <ListItem  alignItems="flex-start">
+          <ListItemAvatar>
+            <BookOutlinedIcon/>
+          </ListItemAvatar>
+          <ListItemText 
+            primary= {repo.full_name}
+            secondary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  
+                  color="textPrimary"
+                >
+                 {repo.description}
+                </Typography>
+              </React.Fragment>
+            }
+          />
+            <Divider/>
+        </ListItem>
+        </Link>
+          )}
         </List>
     )
 }

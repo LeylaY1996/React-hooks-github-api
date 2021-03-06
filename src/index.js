@@ -14,7 +14,6 @@ const Routing = () => {
   return(
     <Router>
       <Switch>
-        <App/>
         <Route path="/" exact component={App} />
         <Route path="/list-repo" component={ListRepo} />
         <Route path="/repo-detail/:id" component={RepoDetail} />

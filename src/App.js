@@ -6,20 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InsertDriveFileSharpIcon from '@material-ui/icons/InsertDriveFileSharp';
-import MoodSharpIcon from '@material-ui/icons/MoodSharp';
 import { useState, useEffect } from "react";
-import {searchRepositories} from '../src/services/search';
+import {searchRepositories, searchUsers} from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListRepo from './components/ListRepo';
 import { useHistory } from "react-router-dom";
-import {Link} from 'react-router-dom';
-import ListUsers from './components/ListUsers';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -135,50 +129,63 @@ const useStyles = makeStyles((theme) => ({
     height: '1px',
     margin: '23px 64px 44px 63px',
     backgroundColor: '#bebebe'
+  },
+  number:{
+      width: '360px',
+      height: '46px',
+      flexGrow: '0',
+      margin: '8px 0 0',
+      padding: '13px 22px 13px 20px',
+      color: 'rgba(0, 0, 0, 0.87)'
+  },
+  verticaldvder:{
+    width: '1px',
+    height: '855px',
+    marginLeft: '-5px',
+    marginBottom: '0',
+    transformY: 'rotate(90deg)',
+    backgroundColor: '#c4c4c4',
   }
 }));
 
 export default function App() {
   const classes = useStyles();
   const [values, setValue] = useState();
-  const [repo, setRepoSize] = useState();
+  const [repoSize, setRepoSize] = useState();
+  const [userSize, setUserSize] = useState();
   const [users,setUsers] = useState();
   const [bookmarks,setBookmarks] = useState();
 
   const history = useHistory();
 
-  
 
-  useEffect(() => {
-  }, [])
- 
+ let sear;
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchRepositories(e.target.value)
       .then(searchFound => {
-        setValue({values:searchFound.items});
-        
-        setRepoSize({repo:searchFound.total_count})
-        Users(searchFound.items);
-        
+        console.log("repo",searchFound.total_count);
+        setValue(searchFound.items);
+        setRepoSize(searchFound.total_count)
+      });
+
+      searchUsers(e.target.value)
+      .then(searchFound => {
+        console.log("users",searchFound);
+        setUsers(searchFound.items);
+        setUserSize(searchFound.total_count)
+
       });
     }
   }
-
-  function Users(values){
-    values.map(value => {
-      console.log(value.owner);
-      setUsers({users:value.owner})
-    })
-  }
-
+function getUsers() {
+  //searchUsers(e.target.value);
+}
   console.log("values",values);
-  console.log("repo",repo);
   console.log("users",users);
   
   return (
-    <div className={classes.grow}>
-       
+       <div  className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -202,34 +209,19 @@ export default function App() {
         </Toolbar>
       </AppBar>
    
-      <Grid container spacing={3}>
-       <Grid item xs={3}>
-       <List component="nav" className={classes.repositorySearch} aria-label="mailbox folders">
-        <ListItem button className={classes.rectangle}>
-          <InsertDriveFileSharpIcon className={classes.listIcon}/>
-          <Link to="/list-repo">
-            <ListItemText primary="Repositories"/>
-            </Link>
-        </ListItem>
-        <ListItem button className={classes.rectangle}>
-          <MoodSharpIcon className={classes.listIcon}/>
-          <Link to="/list-users">
-            <ListItemText primary="Users"/>
-            </Link>
-        </ListItem>
-        <ListItem button className={classes.rectangle}>
-          <BookmarkBorderIcon className={classes.listIcon}/>
-          <Link to="/list-bookmarks">
-            <ListItemText primary="Bookmarked"/>
-            </Link>
-        </ListItem>
-      <Divider className={classes.divider}/>
-    </List>
-        </Grid>
-        <Grid item xs={9}>
-            <ListRepo data= {values}/>
-        </Grid>
-       </Grid>
+      <Grid container alignItems="stretch" spacing={3}>
+  <Grid className="left-pane" item md={4} xs={12}>
+  <MenuList >
+          <MenuItem className={classes.rectangle}>Repositories <h4 className={classes.number}>{repoSize}</h4></MenuItem>
+          <MenuItem  className={classes.rectangle} onClick={getUsers}>Users <h4 className={classes.number}>{userSize}</h4></MenuItem>
+          <MenuItem  className={classes.rectangle}>Bookmarked</MenuItem>
+        </MenuList>
+        <Divider  className={classes.divider}/>
+</Grid>
+ <Grid className="right-pane" item md={8} xs={12}>
+  {values ? <ListRepo data={values}/> : <ListRepo data={users}/>}
+  </Grid>
+</Grid>
     </div>
 
   );
