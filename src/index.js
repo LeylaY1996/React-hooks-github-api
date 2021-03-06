@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import { ListRepo } from './router';
 import ListUsers from './components/ListUsers';
-import {Redirect} from 'react-router-dom';
 import ListBookmarks from './components/ListBookmarks';
 import RepoDetail from './components/RepoDetail';
 
