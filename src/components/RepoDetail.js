@@ -17,21 +17,25 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 export default function RepoDetail() {
     const [repoValue, setRepoValue] = useState();
-    console.log("hell")
     var path = window.location.pathname;
     var str = path.split("/");
-    console.log("url", str)
 
     useEffect(() => {
         repoDetail(str[2], str[3])
             .then(searchFound => {
                 console.log("repo", searchFound);
-                localStorage.setItem('SiteData', JSON.stringify(searchFound));
+                setRepoValue(searchFound);
+                localStorage.setItem('repoData', JSON.stringify(searchFound));
             });
-
-    }, [])
-
-    console.log("repovalue", JSON.parse(localStorage.getItem('SiteData')).id)
+      }); 
+     /*  repoDetail(str[2], str[3])
+      .then(searchFound => {
+          console.log("repo", searchFound);
+          setRepoValue(searchFound);
+          localStorage.setItem('repoData', JSON.stringify(searchFound));
+      });
+      repoDetail(str[2], str[3]); */
+    console.log("repo",repoValue)
     return (
         <div>
             <Grid container alignItems="stretch" spacing={3}>
@@ -39,19 +43,19 @@ export default function RepoDetail() {
                     <List component="nav" aria-label="secondary mailbox folder">
 
                         <ListItem>
-                            <ListItemIcon>
+     {                       <ListItemIcon>
                                 <BookOutlinedIcon />
 
-                            </ListItemIcon>
+                            </ListItemIcon>}
 
                         </ListItem>
                         <ListItem>
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).full_name} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).full_name} />
 
 
                         </ListItem>
                         <ListItem>
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).description} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).description} />
 
 
                         </ListItem>
@@ -60,7 +64,7 @@ export default function RepoDetail() {
                                 <LinkOutlinedIcon />
 
                             </ListItemIcon>
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).full_name} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).full_name} />
 
 
                         </ListItem>
@@ -73,7 +77,7 @@ export default function RepoDetail() {
                                 <VisibilityOutlinedIcon />
                             </ListItemIcon>
                             <ListItemText primary="Watch" />
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).id} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).id} />
 
 
                         </ListItem>
@@ -84,7 +88,7 @@ export default function RepoDetail() {
                             </ListItemIcon>
                             <ListItemText primary="Star" />
 
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).stargazers_count} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).stargazers_count} />
                         </ListItem>
                         <Divider />
                         <ListItem>
@@ -93,7 +97,7 @@ export default function RepoDetail() {
                             </ListItemIcon>
                             <ListItemText primary="Fork" />
 
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).forks_count} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).forks_count} />
                         </ListItem>
                     </List>
 
@@ -103,7 +107,7 @@ export default function RepoDetail() {
                                 <DeviceHubIcon />
                             </ListItemIcon>
                             <ListItemText primary="Branches" />
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).default_branch} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).default_branch} />
 
                         </ListItem>
                         <Divider />
@@ -115,7 +119,7 @@ export default function RepoDetail() {
                             </ListItemIcon>
                             <ListItemText primary="Issues" />
 
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).open_issues_count} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).open_issues_count} />
                         </ListItem>
                         <Divider />
                         <ListItem
@@ -135,7 +139,7 @@ export default function RepoDetail() {
                 <Grid className="right-pane" item md={8} xs={12}>
                 <List component="nav" aria-label="main mailbox folders">
                         <ListItem>
-                            <ListItemText primary={JSON.parse(localStorage.getItem('SiteData')).description} />
+                            <ListItemText primary={JSON.parse(localStorage.getItem('repoData')).description} />
                         </ListItem>
                         </List>
                 </Grid>

@@ -31,7 +31,7 @@ export default function ListUsers(props) {
         <div>
         <List className={classes.root}>
         {users && users.map((user, index) =>
-           <Link key={user.id}>
+           <Link key={user.id} to={`/user-detail/${user.login}`}>
                 <ListItem alignItems="flex-start">
                         <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src={user.avatar_url} />

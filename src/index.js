@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { ListRepo } from './router';
 import ListUsers from './components/ListUsers';
 import ListBookmarks from './components/ListBookmarks';
+import ListRepo from './components/ListRepo';
 import RepoDetail from './components/RepoDetail';
+import UserDetail from './components/UserDetail';
 
 const Routing = () => {
   return(
@@ -17,6 +18,7 @@ const Routing = () => {
         <Route path="/list-repo" component={ListRepo} />
         <Route path="/repo-detail/:id" component={RepoDetail} />
         <Route path="/list-users" component={ListUsers} />
+        <Route path="/user-detail/:id" component={UserDetail} />
         <Route path="/list-bookmarks" component={ListBookmarks} />
       </Switch>
     </Router>
