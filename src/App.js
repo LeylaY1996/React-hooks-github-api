@@ -282,7 +282,7 @@ export default function App() {
             <ListRepo data={values} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <ListUsers />
+            <ListUsers data={users}/>
           </TabPanel>
           <TabPanel value={value} index={2}>
             Item Three
