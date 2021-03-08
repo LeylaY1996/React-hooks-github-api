@@ -4,7 +4,7 @@ export async function searchRepositories(searchRepo) {
     const response = await fetch(url+'/search/repositories?q='+searchRepo,
     {
         headers: {
-            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
+            'Authorization': 'token your_token',
         }
     });
     return response.json();
@@ -14,7 +14,7 @@ export async function searchUsers(searchRepo) {
     const response = await fetch(url+'/search/users?q='+searchRepo,
     {
         headers: {
-            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
+            'Authorization': 'token your_token',
         }
     });
     return response.json();
@@ -24,7 +24,7 @@ export async function repoDetail(owner,repoName) {
     const response = await fetch(url+'/repos/'+owner+'/'+repoName,
     {
         headers: {
-            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
+            'Authorization': 'token your_token',
         }
     });
     return response.json();
@@ -34,7 +34,7 @@ export async function userDetail(username) {
     const response = await fetch(url+'/users/'+username,
     {
         headers: {
-            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
+            'Authorization': 'token your_token',
         }
     });
     return response.json();
@@ -44,7 +44,7 @@ export async function userRepos(username) {
     const response = await fetch(url+'/users/'+username+'/repos',
     {
         headers: {
-            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
+            'Authorization': 'token your_token',
         }
     });
     return response.json();
