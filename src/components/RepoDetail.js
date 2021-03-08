@@ -1,8 +1,8 @@
 import React from 'react'
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import { repoDetail,saveBookmark } from './../services/search';
-import { useState, useEffect } from "react";
+import { getBookmarks, repoDetail,saveBookmark } from './../services/search';
+import { useState, useEffect,useContext } from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,11 +15,13 @@ import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Button from '@material-ui/core/Button';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import BookmarkList from './BookmarkList';
+import { ThingsProvider } from '../thingsContext'
 
 
 export default function RepoDetail() {
     const [repoValue, setRepoValue] = useState();
-    const [bookmarkData, setBookmarkData] = useState();
+    const [bookmarkData, setBookmarkData] = useState([]);
 
     var path = window.location.pathname;
     var str = path.split("/");
@@ -30,25 +32,28 @@ export default function RepoDetail() {
                 console.log("repo", searchFound);
                 setRepoValue(searchFound);
             });
+            
     }, []);
 
     function saveBookmarkFunc() {
         saveBookmark(str[2], str[3])
-        .then(searchFound => {
-            console.log("repo", searchFound);
-           // setBookmarkData(searchFound);
-        });
+        .then((json) => {
+            // handle success
+            getBookmarks()
+            .then(searchFound => {
+                console.log("starrepo", searchFound);
+                setBookmarkData(searchFound);
+            });
+            })
+        .catch(error => error);
+            
     }
-    /*  repoDetail(str[2], str[3])
-     .then(searchFound => {
-         console.log("repo", searchFound);
-         setRepoValue(searchFound);
-         localStorage.setItem('repoData', JSON.stringify(searchFound));
-     });
-     repoDetail(str[2], str[3]); */
-    console.log("repo", repoValue)
+    console.log("bookmarklist",bookmarkData)
     return (
         <div>
+           {/*  <ThingsProvider value={bookmarkData}>
+                <BookmarkList/>
+            </ThingsProvider> */}
             {repoValue &&
                 <Grid container alignItems="stretch" spacing={3}>
                     <Grid className="left-pane" item md={4} xs={12}>

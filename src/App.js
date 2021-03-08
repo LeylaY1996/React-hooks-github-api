@@ -12,13 +12,20 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { useState } from "react";
-import { searchRepositories, searchUsers } from '../src/services/search';
+import { searchRepositories, searchUsers,getBookmarks } from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListRepo from './components/ListRepo';
 import { useHistory } from "react-router-dom";
 import ListUsers from './components/ListUsers';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import BookmarkList from './components/BookmarkList'
+
+import { useContext } from 'react';
+import ListBookmark from './components/ListBookmark';
+
+const KullaniciContext = React.createContext()
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -214,13 +221,22 @@ export default function App() {
           setUserSize(searchFound.total_count)
 
         });
+
+        getBookmarks()
+        .then(searchFound => {
+          searchFound.map(function(val, index){ 
+           console.log("value",val.full_name);
+           console.log((val.full_name).includes(e.target.value));
+           setBookmarks(val);
+        })
+
+        });
     }
   }
-  function getUsers() {
-    //searchUsers(e.target.value);
+  function goToBookmarkList() {
+    history.push('/list-bookmarks') ;
   }
-  console.log("values", values);
-  console.log("users", users);
+   console.log("bookmarks", bookmarks);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -246,7 +262,7 @@ export default function App() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <BookmarkBorderIcon className={classes.bookmarkBorder} />
+          <BookmarkBorderIcon className={classes.bookmarkBorder} onClick={goToBookmarkList}/>
             Bookmarks
         </Toolbar>
       </AppBar>
@@ -277,8 +293,8 @@ export default function App() {
             <ListUsers data={users}/>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Item Three
-      </TabPanel>
+              <ListBookmark data={bookmarks}/>
+         </TabPanel>
         </Grid>
       </Grid>
     </div>
