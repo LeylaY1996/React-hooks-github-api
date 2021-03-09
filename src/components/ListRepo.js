@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 
 export default function ListRepo(props) {
   let repos = props.data;
-
+  console.log("Props size")
   return (
     <List >
       {repos && repos.map((repo, index) =>

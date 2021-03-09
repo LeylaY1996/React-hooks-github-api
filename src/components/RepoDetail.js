@@ -1,8 +1,8 @@
 import React from 'react'
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import { getBookmarks, repoDetail,saveBookmark } from './../services/search';
-import { useState, useEffect,useContext } from "react";
+import { getBookmarks, repoDetail, saveBookmark } from './../services/search';
+import { useState, useEffect } from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,8 +15,6 @@ import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Button from '@material-ui/core/Button';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import BookmarkList from './BookmarkList';
-import { ThingsProvider } from '../thingsContext'
 
 
 export default function RepoDetail() {
@@ -32,28 +30,25 @@ export default function RepoDetail() {
                 console.log("repo", searchFound);
                 setRepoValue(searchFound);
             });
-            
+
     }, []);
 
     function saveBookmarkFunc() {
         saveBookmark(str[2], str[3])
-        .then((json) => {
-            // handle success
-            getBookmarks()
-            .then(searchFound => {
-                console.log("starrepo", searchFound);
-                setBookmarkData(searchFound);
-            });
+            .then((json) => {
+                // handle success
+                getBookmarks()
+                    .then(searchFound => {
+                        console.log("starrepo", searchFound);
+                        setBookmarkData(searchFound);
+                    });
             })
-        .catch(error => error);
-            
+            .catch(error => error);
+
     }
-    console.log("bookmarklist",bookmarkData)
+    console.log("bookmarklist", bookmarkData)
     return (
         <div>
-           {/*  <ThingsProvider value={bookmarkData}>
-                <BookmarkList/>
-            </ThingsProvider> */}
             {repoValue &&
                 <Grid container alignItems="stretch" spacing={3}>
                     <Grid className="left-pane" item md={4} xs={12}>
@@ -150,8 +145,8 @@ export default function RepoDetail() {
 
                                 <ListItemText primary="-" />
                             </ListItem>
-                            <Button variant="outlined" color="primary" startIcon={<BookmarkBorderIcon />}  onClick={saveBookmarkFunc}
->
+                            <Button variant="outlined" color="primary" startIcon={<BookmarkBorderIcon />} onClick={saveBookmarkFunc}
+                            >
                                 Add To Bookmarks
                             </Button>
                         </List>
@@ -160,7 +155,7 @@ export default function RepoDetail() {
                     <Grid className="right-pane" item md={8} xs={12}>
                         <List component="nav" aria-label="main mailbox folders">
                             <ListItem>
-                                <ListItemText primary={repoValue.description}/>
+                                <ListItemText primary={repoValue.description} />
                             </ListItem>
                         </List>
                     </Grid>

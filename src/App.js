@@ -12,20 +12,17 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { useState } from "react";
-import { searchRepositories, searchUsers,getBookmarks } from '../src/services/search';
+import { searchRepositories, searchUsers, getBookmarks } from '../src/services/search';
 import Grid from '@material-ui/core/Grid';
 import ListRepo from './components/ListRepo';
 import { useHistory } from "react-router-dom";
 import ListUsers from './components/ListUsers';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import BookmarkList from './components/BookmarkList'
-
-import { useContext } from 'react';
 import ListBookmark from './components/ListBookmark';
-
-const KullaniciContext = React.createContext()
-
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -60,21 +57,6 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  content: {
-    flexGrow: 2,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -117,24 +99,24 @@ const useStyles = makeStyles((theme) => ({
     margin: '5px 8px 5px 10px',
     objectFit: 'contain',
   },
-  rectangle: {
+  /* rectangle: {
     width: '360px',
     height: '46px',
     flexGrow: '0',
     margin: '8px 0 0',
     padding: '11px 22px 11px 16px',
-  },
-  repositorySearch: {
+  }, */
+  /* repositorySearch: {
     width: '1440px',
     height: '900px',
     backgroundColor: '#ffffff'
-  },
-  divider: {
+  }, */
+ /*  divider: {
     width: '360px',
     height: '1px',
     margin: '8px 0 24px',
     backgroundColor: '#c4c4c4'
-  },
+  }, */
   line: {
     width: '1px',
     height: '835px',
@@ -204,12 +186,11 @@ export default function App() {
   const history = useHistory();
 
 
-  let sear;
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       searchRepositories(e.target.value)
         .then(searchFound => {
-          console.log("repo", searchFound.total_count);
+          console.log("repo", searchFound);
           setValues(searchFound.items);
           setRepoSize(searchFound.total_count)
         });
@@ -222,22 +203,15 @@ export default function App() {
 
         });
 
-        getBookmarks()
+      getBookmarks()
         .then(searchFound => {
-          searchFound.map(function(val, index){ 
-           console.log("value",val.full_name);
-           console.log((val.full_name).includes(e.target.value));
-           setBookmarks(val);
-        })
-
+            setBookmarks(searchFound.items);
         });
     }
   }
   function goToBookmarkList() {
-    history.push('/list-bookmarks') ;
+    history.push('/list-bookmarks');
   }
-   console.log("bookmarks", bookmarks);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -262,7 +236,7 @@ export default function App() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <BookmarkBorderIcon className={classes.bookmarkBorder} onClick={goToBookmarkList}/>
+          <BookmarkBorderIcon className={classes.bookmarkBorder} onClick={goToBookmarkList} />
             Bookmarks
         </Toolbar>
       </AppBar>
@@ -279,7 +253,7 @@ export default function App() {
             {/* <InsertDriveFileIcon/> */}
             <Tab icon={<InsertDriveFileIcon />} label="Repositories" {...a11yProps(0)} />
             {/* <InsertEmoticonIcon/> */}
-            <Tab icon={<InsertEmoticonIcon />} label="Users" {...a11yProps(1)} />
+            <Tab icon={<InsertEmoticonIcon />} label="Users" {...a11yProps(1)} />{userSize}
             {/* <BookmarkBorderIcon/> */}
             <Tab icon={<BookmarkBorderIcon />} label="Bookmarked" {...a11yProps(2)} />
 
@@ -287,14 +261,41 @@ export default function App() {
         </Grid>
         <Grid className="right-pane" item md={8} xs={12}>
           <TabPanel value={value} index={0}>
+            <List>
+            <ListItem alignItems="flex-start">
+             
+            <ListItemText
+              primary={repoSize}
+            />
+            {
+              repoSize &&
+            <ListItemText
+              primary="Repository Results"
+            />
+            }
+          </ListItem>
+            </List>
             <ListRepo data={values} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <ListUsers data={users}/>
+          <List>
+            <ListItem alignItems="flex-start">
+            <ListItemText
+              primary={userSize}
+            />
+             {
+              userSize &&
+            <ListItemText
+              primary="User Results"
+            />
+            }
+          </ListItem>
+            </List>
+            <ListUsers data={users} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-              <ListBookmark data={bookmarks}/>
-         </TabPanel>
+            <ListBookmark data={bookmarks} />
+          </TabPanel>
         </Grid>
       </Grid>
     </div>

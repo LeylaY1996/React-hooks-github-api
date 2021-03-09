@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ListUsers from './components/ListUsers';
 import ListRepo from './components/ListRepo';
 import RepoDetail from './components/RepoDetail';
@@ -11,7 +11,7 @@ import UserDetail from './components/UserDetail';
 import BookmarkList from './components/BookmarkList';
 
 const Routing = () => {
-  return(
+  return (
     <Router>
       <Switch>
         <Route path="/" exact component={App} />

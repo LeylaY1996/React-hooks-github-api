@@ -56,7 +56,7 @@ export async function saveBookmark(owner,repo) {
     {
         method: 'PUT',
         headers: {
-            'Authorization': 'token your_token',
+            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
         },
     });
     return response;
@@ -66,7 +66,7 @@ export async function getBookmarks() {
     const response = await fetch(url+'/user/starred',
     {
         headers: {
-            'Authorization': 'token your_token',
+            'Authorization': 'token  3a5d249479d940f3d9d9fb27e6713837437d9c2c',
         }
     });
     return response.json();
