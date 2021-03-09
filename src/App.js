@@ -23,6 +23,7 @@ import ListBookmark from './components/ListBookmark';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Divider } from '@material-ui/core';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -99,78 +100,25 @@ const useStyles = makeStyles((theme) => ({
     margin: '5px 8px 5px 10px',
     objectFit: 'contain',
   },
-  /* rectangle: {
-    width: '360px',
-    height: '46px',
-    flexGrow: '0',
-    margin: '8px 0 0',
-    padding: '11px 22px 11px 16px',
-  }, */
-  /* repositorySearch: {
-    width: '1440px',
-    height: '900px',
-    backgroundColor: '#ffffff'
-  }, */
- /*  divider: {
-    width: '360px',
-    height: '1px',
-    margin: '8px 0 24px',
-    backgroundColor: '#c4c4c4'
-  }, */
-  line: {
-    width: '1px',
-    height: '835px',
-    margin: '65px 63px 0 0',
-    transform: 'rotate(90deg)',
-    backgroundColor: '#c4c4c4'
-  },
-  listIcon: {
-    width: '24px',
-    height: '24px',
-    flexGrow: '0',
-    margin: '0 32px 0 0',
-    objectFit: 'contain'
-  },
-  book: {
-    width: '24px',
-    height: '24px',
-    margin: '4px 8px 0 63px',
-    objectFit: 'contain'
-  },
-  airbnb: {
-    width: '182px',
-    height: '24px',
-    fontFamily: 'Roboto',
-    fontSize: '20px',
-    fontWeight: '250px',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '1.2',
-    letterSpacing: 'normal',
-    textAlign: 'left',
-    color: '#375f9d'
-  },
-  listDivider: {
-    width: '952px',
-    height: '1px',
-    margin: '23px 64px 44px 63px',
-    backgroundColor: '#bebebe'
-  },
-  number: {
-    width: '360px',
-    height: '46px',
-    flexGrow: '0',
-    margin: '8px 0 0',
-    padding: '13px 22px 13px 20px',
-    color: 'rgba(0, 0, 0, 0.87)'
-  },
   verticaldvder: {
-    width: '1px',
-    height: '855px',
-    marginLeft: '-5px',
+    width: '3px',
+    height: 'auto',
+    marginLeft: '-15px',
+    marginTop: '10px',
     marginBottom: '0',
     transformY: 'rotate(90deg)',
-    backgroundColor: '#c4c4c4',
+    backgroundColor: '#FF0000	',
+  },
+  searchText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    textAlign: 'right',
+    fontDisplay: 'swap',
+    fontWeight: 'bolder',
+    color: 'rgba(0, 0, 0, 0.87)',
+  },
+  result: {
+    textAlign:'left',
   }
 }));
 
@@ -250,27 +198,23 @@ export default function App() {
             aria-label="Vertical tabs example"
             className={classes.tabs}
           >
-            {/* <InsertDriveFileIcon/> */}
-            <Tab icon={<InsertDriveFileIcon />} label="Repositories" {...a11yProps(0)} />
-            {/* <InsertEmoticonIcon/> */}
-            <Tab icon={<InsertEmoticonIcon />} label="Users" {...a11yProps(1)} />{userSize}
-            {/* <BookmarkBorderIcon/> */}
-            <Tab icon={<BookmarkBorderIcon />} label="Bookmarked" {...a11yProps(2)} />
+            <Tab className={classes.searchText} icon={<InsertDriveFileIcon />} label="Repositories" {...a11yProps(0)} />
+            <Tab className={classes.searchText} icon={<InsertEmoticonIcon />} label="Users" {...a11yProps(1)} />
+            <Tab className={classes.searchText} icon={<BookmarkBorderIcon />} label="Bookmarked" {...a11yProps(2)} />
 
           </Tabs>
         </Grid>
+        <Divider className={classes.verticaldvder}/>
         <Grid className="right-pane" item md={8} xs={12}>
           <TabPanel value={value} index={0}>
-            <List>
-            <ListItem alignItems="flex-start">
+            <List className={classes.searchText}>
+            <ListItem alignItems="flex-start" >
              
-            <ListItemText
-              primary={repoSize}
-            />
+           
             {
               repoSize &&
-            <ListItemText
-              primary="Repository Results"
+              <ListItemText secondary="Repository Results"
+              primary={repoSize} className={classes.results}
             />
             }
           </ListItem>
@@ -280,13 +224,10 @@ export default function App() {
           <TabPanel value={value} index={1}>
           <List>
             <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={userSize}
-            />
              {
               userSize &&
-            <ListItemText
-              primary="User Results"
+              <ListItemText secondary="Users Results"
+              primary={repoSize} className={classes.results}
             />
             }
           </ListItem>

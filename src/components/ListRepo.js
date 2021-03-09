@@ -34,7 +34,6 @@ export default function ListRepo(props) {
                 </React.Fragment>
               }
             />
-            <Divider />
           </ListItem>
         </Link>
       )}
