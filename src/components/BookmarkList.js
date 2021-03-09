@@ -9,9 +9,35 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles(() => ({
+
+  inline: {
+    display: 'inline',
+  },
+  verticaldvder: {
+    width: '3px',
+    height: 'auto',
+    marginLeft: '-15px',
+    marginTop: '10px',
+    marginBottom: '0',
+    transformY: 'rotate(90deg)',
+    backgroundColor: 'black	',
+  },
+  icon:{
+    width: '100px',
+    height:'200px'
+  },
+  iconTxt:{
+    marginTop:'-10px',
+    marginLeft:'30px'
+  }
+ 
+}));
 export default function BookmarkList() {
   const [bookList, setBookList] = useState();
+  const classes = useStyles();
 
   useEffect(() => {
     getBookmarks()
@@ -29,9 +55,10 @@ export default function BookmarkList() {
           <List >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <BookOutlinedIcon />
+                <BookOutlinedIcon className={classes.icon}/>
               </ListItemAvatar>
-              <ListItemText
+            </ListItem>
+              <ListItemText className={classes.iconTxt}
                 primary="Bookmarks"
                 secondary={
                   <React.Fragment>
@@ -46,10 +73,10 @@ export default function BookmarkList() {
                   </React.Fragment>
                 }
               />
-              <Divider />
-            </ListItem>
           </List>
         </Grid>
+        <Divider className={classes.verticaldvder}/>
+
         <Grid className="right-pane" item md={8} xs={12}>
           <List >
             {bookList && Object.values(bookList).map((repo, index) =>

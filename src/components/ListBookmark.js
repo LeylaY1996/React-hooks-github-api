@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import ListItem from '@material-ui/core/ListItem';
 
 export default function ListBookmark(props) {
+  console.log("Bookmarks",props)
   const bookList = props.data
   return (
     <div>

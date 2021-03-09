@@ -153,7 +153,7 @@ export default function App() {
 
       getBookmarks()
         .then(searchFound => {
-            setBookmarks(searchFound.items);
+            setBookmarks(searchFound);
         });
     }
   }

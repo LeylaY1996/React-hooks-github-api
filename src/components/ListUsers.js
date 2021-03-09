@@ -49,8 +49,8 @@ export default function ListUsers(props) {
                         </React.Fragment>
                         }
                         />
-                <Divider variant="inset" component="li" />
                 </ListItem>
+                <Divider/>
                 </Link>
         )}
 

@@ -35,6 +35,7 @@ export default function ListRepo(props) {
               }
             />
           </ListItem>
+                          <Divider/>
         </Link>
       )}
     </List>
